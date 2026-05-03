@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<<htmlhtml lang="en">
+<<headhead>
+    <<metameta charset="UTF-8">
+    <<metameta name="viewport" content="width=device-width, initial-scale=1.0">
+    <<titletitle><%= title %></title>
+    <<scriptscript src="https://cdn.tailwindcss.com"></script>
+    <<linklink rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <<stylestyle>
+        body { background-color: #0a0a0a; color: #ffffff; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hero-gradient { background: linear-gradient(to top, #0a0a0a, transparent); }
+        .rating-badge { background: rgba(100, 100, 100, 0.7); }
+    </style>
+</head>
+<<bodybody class="min-h-screen">
+
+    <!-- Nav -->
+    <<navnav class="fixed top-0 w-full z-50 glass px-6 py-3 flex items-center justify-between">
+        <<divdiv class="flex items-center gap-8">
+            <<divdiv class="text-2xl font-bold flex items-center gap-2">
+                <<ii class="fa-solid fa-cat text-white"></i>
+                <span>Cinevo</span>
+            </div>
+            <<divdiv class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
+                <<aa href="#" class="text-white"><<ii class="fa-solid fa-house mr-2"></i> Home</a>
+                <<divdiv class="group relative cursor-pointer">
+                    <span><<ii class="fa-solid fa-film mr-2"></i> Movies <<ii class="fa-solid fa-chevron-down text-[10px]"></i></span>
+                </div>
+                <<divdiv class="group relative cursor-pointer">
+                    <span><<ii class="fa-solid fa-tv mr-2"></i> Shows <<ii class="fa-solid fa-chevron-down text-[10px]"></i></span>
+                </div>
+                <<aa href="#"><<ii class="fa-solid fa-gamepad mr-2"></i> Games</a>
+                <<aa href="#" class="text-blue-400 flex items-center gap-1">
+                    <<ii class="fa-solid fa-play mr-2"></i> Playables <<spanspan class="bg-blue-600 text-white text-[10px] px-1 rounded">NEW</span>
+                </a>
+                <<aa href="#"><<ii class="fa-solid fa-music mr-2"></i> Music</a>
+            </div>
+        </div>
+        <<divdiv class="flex items-center gap-4">
+            <<formform action="/search" method="GET" class="relative">
+                <<inputinput type="text" name="q" placeholder="Search..." class="bg-gray-800 border border-gray-700 rounded-full px-4 py-1 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-gray-600">
+                <<buttonbutton type="submit" class="absolute right-3 top-2 text-gray-500 hover:text-white">
+                    <<ii class="fa-solid fa-magnifying-glass text-xs"></i>
+                </button>
+            </form>
+            <<ii class="fa-solid fa-gear text-gray-400 cursor-pointer hover:text-white"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <<divdiv class="relative h-[85vh] w-full overflow-hidden">
+        <<imgimg src="<%= featuredMovie.image %>" class="w-full h-full object-cover opacity-60" alt="Featured">
+        <<divdiv class="absolute inset-0 hero-gradient"></div>
+        <<divdiv class="absolute bottom-0 left-0 w-full p-12 flex flex-col items-start gap-4 max-w-4xl">
+            <<spanspan class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">Trending Now</span>
+            <<hh1 class="text-6xl font-bold tracking-tight"><<%=%= featuredMovie.title %></h1>
+            <<divdiv class="flex gap-2 text-sm font-medium text-gray-300">
+                <% featuredMovie.genre.forEach(genre => { %>
+                    <span><%= genre %></span><% if (genre !== featuredMovie.genre[featuredMovie.genre.length-1]) { %>,<% } %>
+                <% }) %>
+            </div>
+            <<pp class="text-gray-400 text-lg max-w-2xl leading-relaxed">
+                <%= featuredMovie.description %>
+            </p>
+            <<divdiv class="flex gap-4 mt-4">
+                <<aa href="/movie/<%= featuredMovie.id %>" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-bold flex items-center gap-2 transition">
+                    <<ii class="fa-solid fa-play text-xs"></i> Watch
+                </a>
+                <<aa href="/movie/<%= featuredMovie.id %>" class="glass hover:bg-white/10 text-white px-8 py-3 rounded-full font-bold flex items-center gap-2 transition">
+                    Details <<ii class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Streaming Services -->
+    <<divdiv class="px-12 py-12">
+        <<hh2 class="text-xl font-semibold mb-6">Watch Netflix Movies</h2>
+        <<divdiv class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+            <% const services = ['netflix', 'prime', 'apple', 'disney', 'hulu', 'prime', 'apple', 'orange', 'fubo', 'max']; %>
+            <% services.forEach(s => { %>
+                <<divdiv class="w-20 h-20 rounded-xl glass flex-shrink-0 cursor-pointer hover:scale-105 transition border-2 border-transparent hover:border-purple-500 overflow-hidden">
+                    <<imgimg src="https://via.placeholder.com/80?text=<%= s %>" class="w-full h-full object-cover" alt="<%= s %>">
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <!-- Trending Grid -->
+    <<divdiv class="px-12 py-8">
+        <<divdiv class="flex justify-between items-center mb-6">
+            <<hh2 class="text-2xl font-bold">Trending on Netflix — Watch on Cinevo</h2>
+            <<aa href="#" class="text-gray-400 text-sm hover:text-white flex items-center gap-1">
+                More <<ii class="fa-solid fa-chevron-right text-[10px]"></i>
+            </a>
+        </div>
+        <<divdiv class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <% trendingMovies.forEach(movie => { %>
+                <<aa href="/movie/<%= movie.id %>" class="group cursor-pointer">
+                    <<divdiv class="relative aspect-[2/3] rounded-xl overflow-hidden mb-2">
+                        <<imgimg src="<%= movie.image %>" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="<%= movie.title %>">
+                        <<divdiv class="absolute top-2 left-2 rating-badge text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                            <%= movie.rating %>
+                        </div>
+                    </div>
+                    <<hh3 class="font-medium text-sm group-hover:text-purple-400 transition"><<%=%= movie.title %></h3>
+                    <<pp class="text-gray-500 text-xs"><<%=%= movie.year %></p>
+                </a>
+            <% }) %>
+        </div>
+    </div>
+
+    <!-- Floating Actions -->
+    <<divdiv class="fixed right-6 bottom-6 flex flex-col gap-3 z-50">
+        <<buttonbutton class="glass px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-white/10 transition">
+            <<ii class="fa-brands fa-discord"></i> Join Discord
+        </button>
+        <<buttonbutton class="glass px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-white/10 transition">
+            <<ii class="fa-brands fa-telegram"></i> Join Telegram
+        </button>
+        <<buttonbutton class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white hover:bg-red-700 transition shadow-lg">
+            <<ii class="fa-solid fa-bug"></i>
+        </button>
+    </div>
+
+</body>
+</html>
